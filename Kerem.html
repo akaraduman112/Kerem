@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: none;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .glitch {
+            font-size: 4em;
+            font-weight: bold;
+            color: #fff;
+            position: relative;
+            animation: glitch 1s infinite;
+            text-shadow: 
+                2px 2px #ff0000,
+                -2px -2px #00ff00;
+        }
+        
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+                text-shadow: 2px 2px #ff0000, -2px -2px #00ff00;
+            }
+            20% {
+                transform: translate(-3px, 3px);
+                text-shadow: -2px -2px #ff0000, 2px 2px #00ff00;
+            }
+            40% {
+                transform: translate(-3px, -3px);
+                text-shadow: 3px 3px #ff0000, -3px -3px #00ff00;
+            }
+            60% {
+                transform: translate(3px, 3px);
+                text-shadow: -3px -3px #ff0000, 3px 3px #00ff00;
+            }
+            80% {
+                transform: translate(3px, -3px);
+                text-shadow: 2px -2px #ff0000, -2px 2px #00ff00;
+            }
+            100% {
+                transform: translate(0);
+                text-shadow: 2px 2px #ff0000, -2px -2px #00ff00;
+            }
+        }
+        
+        .message {
+            font-size: 1.8em;
+            margin: 30px 0;
+            color: #ff0000;
+            animation: flicker 0.5s infinite;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .countdown {
+            font-size: 6em;
+            color: #ff0000;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
+            margin: 30px 0;
+        }
+        
+        .static {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 1;
+            pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            animation: static 0.2s infinite;
+        }
+        
+        @keyframes static {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -5%); }
+            20% { transform: translate(-10%, 5%); }
+            30% { transform: translate(5%, -10%); }
+            40% { transform: translate(-5%, 15%); }
+            50% { transform: translate(-10%, 5%); }
+            60% { transform: translate(15%, 0); }
+            70% { transform: translate(0, 10%); }
+            80% { transform: translate(-15%, 0); }
+            90% { transform: translate(10%, 5%); }
+            100% { transform: translate(5%, 0); }
+        }
+        
+        .eyes {
+            position: fixed;
+            font-size: 5em;
+            animation: blink 3s infinite;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px #ff0000);
+        }
+        
+        @keyframes blink {
+            0%, 49%, 51%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .blood {
+            position: fixed;
+            color: #8b0000;
+            font-size: 3em;
+            animation: drip 3s ease-in;
+            pointer-events: none;
+        }
+        
+        @keyframes drip {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        .shake {
+            animation: shake 0.3s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(5px, 5px) rotate(1deg); }
+            50% { transform: translate(-5px, -5px) rotate(-1deg); }
+            75% { transform: translate(-5px, 5px) rotate(1deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px #8b0000; }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px #ff0000; }
+        }
+        
+        .smile {
+            position: fixed;
+            font-size: 4em;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .warning-text {
+            font-size: 1.5em;
+            color: #fff;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        
+        .cursor-ghost {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 9999;
+            filter: drop-shadow(0 0 10px rgba(255,0,0,0.5));
+        }
+        
+        .screen-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+        }
+    </style>
+</head>
+<body>
+    <div class="static"></div>
+    <div class="screen-flash" id="flash"></div>
+    <div class="cursor-ghost" id="cursorGhost">👁️</div>
+    
+    <div class="container" id="mainContainer">
+        <div class="glitch" id="mainText">KEREM</div>
+        <div class="message">Seni izliyorum...</div>
+    </div>
+
+    <script>
+        // Cursor takibi
+        const cursorGhost = document.getElementById('cursorGhost');
+        document.addEventListener('mousemove', (e) => {
+            cursorGhost.style.left = e.clientX - 25 + 'px';
+            cursorGhost.style.top = e.clientY - 25 + 'px';
+        });
+        
+        // Rastgele gözler
+        function spawnEyes() {
+            const eyes = document.createElement('div');
+            eyes.className = 'eyes';
+            eyes.textContent = '👁️👁️';
+            eyes.style.left = Math.random() * window.innerWidth + 'px';
+            eyes.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(eyes);
+            
+            setTimeout(() => eyes.remove(), 3000);
+        }
+        
+        // Kan damlaları
+        function spawnBlood() {
+            const blood = document.createElement('div');
+            blood.className = 'blood';
+            blood.textContent = '💧';
+            blood.style.left = Math.random() * window.innerWidth + 'px';
+            blood.style.top = '-100px';
+            document.body.appendChild(blood);
+            
+            setTimeout(() => blood.remove(), 3000);
+        }
+        
+        // Ekran flaşı
+        function flashScreen() {
+            const flash = document.getElementById('flash');
+            flash.style.opacity = '1';
+            setTimeout(() => {
+                flash.style.opacity = '0';
+            }, 100);
+        }
+        
+        // Aşama 1
+        setTimeout(() => {
+            const container = document.getElementById('mainContainer');
+            container.innerHTML = `
+                <div class="glitch">SENİ BULDUM</div>
+                <div class="message">Kaçamazsın...</div>
+            `;
+            flashScreen();
+            setInterval(spawnEyes, 2000);
+        }, 3000);
+        
+        // Aşama 2
+        setTimeout(() => {
+            const container = document.getElementById('mainContainer');
+            container.innerHTML = `
+                <div class="glitch">KEREM</div>
+                <div class="warning-text">
+                    Yaşın: 16<br>
+                    Şu an bu sayfaya bakıyorsun<br>
+                    Ve çok geç...
+                </div>
+            `;
+            flashScreen();
+            setInterval(spawnBlood, 1500);
+        }, 7000);
+        
+        // Aşama 3: Geri sayım
+        setTimeout(() => {
+            const container = document.getElementById('mainContainer');
+            container.innerHTML = `
+                <div class="warning-text">Arkana bak...</div>
+                <div class="countdown" id="countdown">10</div>
+                <div class="message">Geliyor...</div>
+            `;
+            flashScreen();
+            document.body.classList.add('shake');
+            
+            let count = 10;
+            const countInterval = setInterval(() => {
+                count--;
+                document.getElementById('countdown').textContent = count;
+                flashScreen();
+                
+                if (count === 0) {
+                    clearInterval(countInterval);
+                    setTimeout(finalScare, 500);
+                }
+            }, 1000);
+        }, 12000);
+        
+        // Final korkutma
+        function finalScare() {
+            const container = document.getElementById('mainContainer');
+            
+            for(let i = 0; i < 5; i++) {
+                setTimeout(() => flashScreen(), i * 200);
+            }
+            
+            container.innerHTML = `
+                <div style="font-size: 8em; animation: none;">☠️</div>
+                <div class="glitch" style="font-size: 4em; color: #ff0000;">YAKALANDIN</div>
+            `;
+            
+            setTimeout(showTrollReveal, 3000);
+        }
+        
+        // Troll
+        function showTrollReveal() {
+            const container = document.getElementById('mainContainer');
+            
+            container.innerHTML = `
+                <div style="font-size: 2em;">😂</div>
+                <div class="glitch" style="font-size: 1.8em; color: #00ff00; animation: none;">TROLL OLDUN!</div>
+                <div style="color: #fff; margin: 15px 0; font-size: 1em;">
+                    HAHAHAHA!<br>
+                    Ağabeyinin korkutması! 🎭<br>
+                    İyi korkuttuk! 😏
+                </div>
+                <button onclick="extraScare()" style="background: #8b0000; color: #fff; border: none; padding: 12px 20px; font-size: 0.95em; border-radius: 8px; cursor: pointer; font-family: 'Courier New', monospace; animation: pulse 2s infinite; display: block; width: 85%; max-width: 350px; margin: 15px auto;">
+                    DAHA ÇOK KORK 😈
+                </button>
+                <button onclick="location.reload()" style="background: #ff0000; color: #fff; border: none; padding: 12px 20px; font-size: 0.95em; border-radius: 8px; cursor: pointer; font-family: 'Courier New', monospace; display: block; width: 85%; max-width: 350px; margin: 10px auto;">
+                    Tekrar 👻
+                </button>
+            `;
+            document.body.classList.remove('shake');
+        }
+        
+        // Ekstra korkutma
+        function extraScare() {
+            const container = document.getElementById('mainContainer');
+            
+            for(let i = 0; i < 10; i++) {
+                setTimeout(() => flashScreen(), i * 100);
+            }
+            
+            container.innerHTML = `
+                <img src="https://i.imgur.com/OVQydTX.jpeg" style="max-width: 90%; border-radius: 10px; box-shadow: 0 0 50px #ff0000; animation: shake 0.2s infinite;" alt="Jumpscare">
+            `;
+            
+            document.body.classList.add('shake');
+            
+            const smileInterval = setInterval(() => {
+                const smile = document.createElement('div');
+                smile.className = 'smile';
+                smile.textContent = ['😈', '👹', '💀', '👻', '😱'][Math.floor(Math.random() * 5)];
+                smile.style.left = Math.random() * window.innerWidth + 'px';
+                smile.style.top = Math.random() * window.innerHeight + 'px';
+                smile.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(smile);
+                
+                setTimeout(() => smile.remove(), 3000);
+            }, 200);
+            
+            setTimeout(() => {
+                clearInterval(smileInterval);
+                document.body.classList.remove('shake');
+                
+                container.innerHTML = `
+                    <div style="font-size: 3em;">🤣</div>
+                    <div class="glitch" style="font-size: 2em; color: #00ff00; animation: none;">TAM TROLL!</div>
+                    <div style="color: #fff; margin: 15px 0; font-size: 1em;">
+                        İstediğini aldın! 😂<br>
+                        Ağabeyinin tam trollü! 🎭
+                    </div>
+                    <button onclick="location.reload()" style="background: #ff0000; color: #fff; border: none; padding: 12px 20px; font-size: 0.95em; border-radius: 8px; cursor: pointer; font-family: 'Courier New', monospace; display: block; width: 85%; max-width: 350px; margin: 10px auto;">
+                        Yeniden 🔄
+                    </button>
+                `;
+            }, 5000);
+        }
+        
+        // Sürekli efektler
+        setInterval(() => {
+            if(Math.random() > 0.7) {
+                flashScreen();
+            }
+        }, 2000);
+        
+        // Sayfa kapatma uyarısı
+        window.addEventListener('beforeunload', (e) => {
+            e.preventDefault();
+            e.returnValue = 'Kaçamazsın...';
+            return 'Kaçamazsın...';
+        });
+    </script>
+</body>
+</html>
